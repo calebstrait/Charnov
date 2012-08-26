@@ -47,10 +47,10 @@ function charnov_standalone(monkeysInitial)
     window          = NaN;            % Reference to window used for drawing.
     
     % Reward.
-    currJuice       = 0.214;          % Current reward amount in milliliters.
-    juiceMax        = 0.214;          % Max amount of juice monkey can get.
-    juiceUnit       = 0.019;          % Amount reward is reduced by for each stay trial.
-    pourTimeOneMl   = 0.75; % 0.3;    % Number of secs juicer needs to pour 1 mL.
+    currJuice       = 1.2;            % Current reward amount in milliliters.
+    juiceMax        = 1.2;            % Max amount of juice monkey can get.
+    juiceUnit       = 0.1;            % Amount reward is reduced by for each stay trial.
+    pourTimeOneMl   = 0.3;            % Number of secs juicer needs to pour 1 mL.
     rewarded        = '';             % Wether or not the monkey got a reward.
     rewardSize      = 0;              % How man milliliters of juice the monkey got.
     spaceReward     = 0.2;            % Reward given to monkey when spacebar pressed.
@@ -58,7 +58,7 @@ function charnov_standalone(monkeysInitial)
     % Saving.
     data            = struct([]);          % Workspace variable where trial data is saved.
     saveCommand     = NaN;                 % Command string that will save .mat files.         
-    validData       = '/Data/Charnov'; % Directory where .mat files are saved.
+    validData       = '/TestData/Charnov'; % Directory where .mat files are saved.
     varName         = 'data';              % Name of the var to save in the workspace.
     
     % Shrinking.
@@ -88,7 +88,7 @@ function charnov_standalone(monkeysInitial)
     % Times.
     errorStateTime  = 3;              % Duration of the error state.
     holdFixTime     = 0.1;            % Duration to hold fixation before choosing.
-    ITI             = 1.5;              % Intertrial interval.
+    ITI             = 1;              % Intertrial interval.
     minFixTime      = 0.05;            % Min time monkey must fixate to start trial.
     timeToFix       = 30;             % Amount of time the monkey has to fixate.
     timeToSaccade   = intmax;         % Time allowed for monkey to make a choice.
@@ -795,7 +795,7 @@ function charnov_standalone(monkeysInitial)
     % Randomly chooses a new height for the leave bar.
     function set_leave_bar()
         % Get a random integer from the range 1 to 21 (inclusive).
-        randIndex = floor(rand(1) * 21 + 1);
+        randIndex = round(rand(1) * 20 + 1);
         
         startLBarHeight = leaveBarHeights(randIndex);
         currLBarHeight = leaveBarHeights(randIndex);
