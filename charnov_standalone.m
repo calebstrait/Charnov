@@ -43,7 +43,7 @@ function charnov_standalone(monkeysInitial)
     
     % References.
     monkeyScreen    = 1;              % Number of the screen the monkey sees.
-    trackedEye      = 1;              % Eyelink code for which eye is being tracked.
+    trackedEye      = 2;              % Eyelink code for which eye is being tracked.
     window          = NaN;            % Reference to window used for drawing.
     
     % Reward.
@@ -58,13 +58,13 @@ function charnov_standalone(monkeysInitial)
     % Saving.
     data            = struct([]);          % Workspace variable where trial data is saved.
     saveCommand     = NaN;                 % Command string that will save .mat files.         
-    validData       = '/Data/Charnov'; % Directory where .mat files are saved.
+    validData       = '/Data/Charnov';     % Directory where .mat files are saved.
     varName         = 'data';              % Name of the var to save in the workspace.
     
     % Shrinking.
-    shrinkRate      = 1.625;          % Pixels shrunk in 0.025 s (65 pixels/s).
-    shrinkRateSec   = 26;             % Pixels shrunk in 1 s.
-    shrinkInterval  = 0.0625;         % Time to shrink 1.625 pixels.
+    shrinkRate      = 1;              % Pixels shrunk in 0.025 s (65 pixels/s).
+    shrinkRateSec   = 65;             % Pixels shrunk in 1 s.
+    shrinkInterval  = 0.0154;         % Time to shrink 1.625 pixels.
     
     % Stimuli.
     barToFixDist    = 300;            % Distance from fixation center to bar edge.
@@ -88,8 +88,8 @@ function charnov_standalone(monkeysInitial)
     % Times.
     errorStateTime  = 3;              % Duration of the error state.
     holdFixTime     = 0.1;            % Duration to hold fixation before choosing.
-    ITI             = 1.5;              % Intertrial interval.
-    minFixTime      = 0.05;            % Min time monkey must fixate to start trial.
+    ITI             = 1.5;            % Intertrial interval.
+    minFixTime      = 0.05;           % Min time monkey must fixate to start trial.
     timeToFix       = 30;             % Amount of time the monkey has to fixate.
     timeToSaccade   = intmax;         % Time allowed for monkey to make a choice.
     
@@ -105,6 +105,9 @@ function charnov_standalone(monkeysInitial)
     % ---------------------------------------------- %
     % ------------------- Setup -------------------- %
     % ---------------------------------------------- %
+    
+    % Set a higher recursion limit.
+    set(0, 'RecursionLimit', 2000);
     
     % Saving.
     prepare_for_saving;
@@ -379,7 +382,7 @@ function charnov_standalone(monkeysInitial)
         % Notify Plexon: Error state presented.
         toplexon(plexonCode);
         
-        pause(errorStateTime);
+        WaitSecs(errorStateTime);
     end
     
     % Checks if the eye breaks fixation bounds before end of duration.
@@ -661,7 +664,7 @@ function charnov_standalone(monkeysInitial)
                         trialErrors = struct([]);
                         
                         currTrial = currTrial + 1;
-                        pause(ITI);
+                        WaitSecs(ITI);
                     end
                 else
                     % Shrink the stay bar.
@@ -705,7 +708,7 @@ function charnov_standalone(monkeysInitial)
                         trialErrors = struct([]);
                         
                         currTrial = currTrial + 1;
-                        pause(ITI);
+                        WaitSecs(ITI);
                     end
                 end
             else
@@ -860,7 +863,7 @@ function charnov_standalone(monkeysInitial)
             key_execute(keyPress);
             
             % Wait for a second to allow for 65 pixel/s shrink rate.
-            pause(shrinkInterval);
+            WaitSecs(shrinkInterval);
             
             % Check for pressed keys.
             keyPress = key_check;
@@ -902,7 +905,7 @@ function charnov_standalone(monkeysInitial)
             key_execute(keyPress);
             
             % Wait for a second to allow for 65 pixel/s shrink rate.
-            pause(shrinkInterval);
+            WaitSecs(shrinkInterval);
             
             % Check for pressed keys.
             keyPress = key_check;
